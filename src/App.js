@@ -168,6 +168,7 @@ const styles = {
     cursor: 'pointer',
     transition: 'all 0.3s',
     fontWeight: '500',
+    pointerEvents: 'auto',
   },
   navNext: {
     position: 'absolute',
@@ -186,6 +187,7 @@ const styles = {
     cursor: 'pointer',
     transition: 'all 0.3s',
     fontWeight: '500',
+    pointerEvents: 'auto',
   },
   indicators: {
     position: 'absolute',
@@ -599,7 +601,7 @@ function App() {
     const meshes = [];
 
     carouselData.forEach((item, index) => {
-      const scale = 1.5; // Reduced size for all cards
+      const scale = 1.0; // Reduced size - was 1.5
 
       // Create a group for each card
       const cardGroup = new THREE.Group();
@@ -748,9 +750,9 @@ function App() {
         // Target scale
         let targetScale;
         if (isFocused) {
-          targetScale = 6; // Large enough to fill screen width
+          targetScale = 4; // Reduced from 6 - smaller focused card
         } else {
-          targetScale = 2; // Same size for all cards
+          targetScale = 1.3; // Reduced from 2 - smaller normal cards
         }
         
         const currentScale = cardGroup.scale.x;
@@ -842,7 +844,7 @@ function App() {
         const isFocused = focusedCard === index;
         
         if (!isFocused) {
-          const targetScale = 2; // Same size for all
+          const targetScale = 1.3; // Reduced from 2
           const currentScale = mesh.scale.x;
           const newScale = currentScale + (targetScale - currentScale) * 0.05;
           mesh.scale.set(newScale, newScale, newScale);
@@ -1010,7 +1012,10 @@ function App() {
       {focusedCard === null && (
         <>
           <button
-            onClick={handlePrevious}
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevious();
+            }}
             style={styles.navPrev}
             className="nav-prev"
             onMouseOver={(e) => {
@@ -1029,7 +1034,10 @@ function App() {
             ← PREV
           </button>
           <button
-            onClick={handleNext}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNext();
+            }}
             style={styles.navNext}
             className="nav-next"
             onMouseOver={(e) => {

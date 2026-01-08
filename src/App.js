@@ -8,7 +8,7 @@ const carouselData = [
     subtitle: "Essential Coverage", 
     description: "Complete photography coverage for your special day", 
     color: "#4fc3f7", 
-    imageUrl: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&h=400&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=1000&fit=crop&q=80",
     details: {
       line1: "One Photographer",
       line2: "One Traditional Videographer",
@@ -22,7 +22,7 @@ const carouselData = [
     subtitle: "Premium Coverage", 
     description: "Enhanced coverage with aerial cinematography", 
     color: "#ab47bc", 
-    imageUrl: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=400&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&h=1000&fit=crop&q=80",
     details: {
       line1: "One Photographer",
       line2: "One Traditional Videographer",
@@ -37,7 +37,7 @@ const carouselData = [
     subtitle: "Deluxe Coverage", 
     description: "Complete premium package with drone cinematography", 
     color: "#26a69a", 
-    imageUrl: "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=400&h=400&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&h=1000&fit=crop&q=80",
     details: {
       line1: "One Photographer",
       line2: "One Traditional Videographer",
@@ -52,10 +52,20 @@ const styles = {
   container: {
     width: '100%',
     height: '100vh',
-    background: '#000000',
+    background: 'radial-gradient(ellipse at center, #1a0a0a 0%, #000000 100%)',
     position: 'relative',
     overflow: 'hidden',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    touchAction: 'pan-y pinch-zoom',
+  },
+  backgroundBokeh: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    left: 0,
+    zIndex: 1,
+    pointerEvents: 'none',
   },
   header: {
     position: 'absolute',
@@ -64,40 +74,22 @@ const styles = {
     right: 0,
     zIndex: 10,
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: '1.5rem 3rem',
+    padding: '2rem 1.5rem',
   },
   logo: {
     color: 'white',
-    fontSize: '1.25rem',
+    fontSize: '2rem',
     fontWeight: 'bold',
-    letterSpacing: '0.1em',
-  },
-  nav: {
-    display: 'flex',
-    gap: '2rem',
-    color: 'white',
-    fontSize: '0.875rem',
-  },
-  navButton: {
-    background: 'none',
-    border: 'none',
-    color: 'white',
-    cursor: 'pointer',
-    transition: 'color 0.3s',
-    fontSize: '0.875rem',
-  },
-  subscribeButton: {
-    background: 'white',
-    color: '#000000',
-    padding: '0.5rem 1.5rem',
-    borderRadius: '9999px',
-    fontSize: '0.875rem',
-    fontWeight: '500',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'all 0.3s',
+    letterSpacing: '0.2em',
+    textAlign: 'center',
+    textShadow: '0 0 30px rgba(79, 195, 247, 0.8), 0 0 60px rgba(79, 195, 247, 0.4), 2px 2px 0 rgba(0, 0, 0, 0.5), 4px 4px 0 rgba(0, 0, 0, 0.3)',
+    transform: 'perspective(500px) rotateX(10deg)',
+    background: 'linear-gradient(to bottom, #ffffff 0%, #4fc3f7 100%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
   },
   canvas: {
     width: '100%',
@@ -118,53 +110,60 @@ const styles = {
   },
   subtitle: {
     color: '#4fc3f7',
-    fontSize: '0.875rem',
+    fontSize: '0.75rem',
     letterSpacing: '0.2em',
-    marginBottom: '1rem',
+    marginBottom: '0.5rem',
   },
   title: {
     color: 'white',
-    fontSize: '4.5rem',
+    fontSize: '2rem',
     fontWeight: 'bold',
     letterSpacing: '0.1em',
-    marginBottom: '1.5rem',
-    margin: '0 0 1.5rem 0',
+    marginBottom: '1rem',
+    margin: '0 0 1rem 0',
     textShadow: '0 0 20px rgba(79, 195, 247, 0.5)',
   },
   description: {
     color: '#9ca3af',
-    fontSize: '0.875rem',
-    maxWidth: '42rem',
-    margin: '0 auto 2rem',
+    fontSize: '0.75rem',
+    maxWidth: '90%',
+    margin: '0 auto',
     lineHeight: '1.6',
     padding: '0 1rem',
   },
-  exploreButton: {
-    pointerEvents: 'auto',
-    background: 'white',
-    color: '#000000',
-    padding: '0.75rem 2rem',
-    borderRadius: '9999px',
-    fontSize: '0.875rem',
-    fontWeight: '500',
-    border: 'none',
+  closeButton: {
+    position: 'absolute',
+    top: '1rem',
+    right: '1rem',
+    zIndex: 30,
+    background: 'rgba(255, 255, 255, 0.1)',
+    backdropFilter: 'blur(10px)',
+    border: '2px solid rgba(255, 255, 255, 0.3)',
+    color: 'white',
+    width: '2.5rem',
+    height: '2.5rem',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     cursor: 'pointer',
+    fontSize: '1.25rem',
     transition: 'all 0.3s',
-    boxShadow: '0 4px 20px rgba(255, 255, 255, 0.3)',
+    pointerEvents: 'auto',
   },
   navPrev: {
     position: 'absolute',
-    left: '3rem',
+    left: '1rem',
     top: '50%',
     transform: 'translateY(-50%)',
     zIndex: 20,
     color: 'white',
-    fontSize: '1rem',
+    fontSize: '0.75rem',
     letterSpacing: '0.2em',
     background: 'rgba(255, 255, 255, 0.1)',
     backdropFilter: 'blur(10px)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
-    padding: '1rem 1.5rem',
+    padding: '0.75rem 1rem',
     borderRadius: '50px',
     cursor: 'pointer',
     transition: 'all 0.3s',
@@ -172,17 +171,17 @@ const styles = {
   },
   navNext: {
     position: 'absolute',
-    right: '3rem',
+    right: '1rem',
     top: '50%',
     transform: 'translateY(-50%)',
     zIndex: 20,
     color: 'white',
-    fontSize: '1rem',
+    fontSize: '0.75rem',
     letterSpacing: '0.2em',
     background: 'rgba(255, 255, 255, 0.1)',
     backdropFilter: 'blur(10px)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
-    padding: '1rem 1.5rem',
+    padding: '0.75rem 1rem',
     borderRadius: '50px',
     cursor: 'pointer',
     transition: 'all 0.3s',
@@ -190,7 +189,7 @@ const styles = {
   },
   indicators: {
     position: 'absolute',
-    bottom: '3rem',
+    bottom: '2rem',
     left: '50%',
     transform: 'translateX(-50%)',
     display: 'flex',
@@ -237,9 +236,125 @@ const styles = {
     pointerEvents: 'none',
     zIndex: 5,
   },
+  popupOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: 'rgba(0, 0, 0, 0.85)',
+    backdropFilter: 'blur(10px)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+    padding: '1rem',
+  },
+  popupCard: {
+    background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+    borderRadius: '20px',
+    maxWidth: '600px',
+    width: '100%',
+    maxHeight: '80vh',
+    overflowY: 'auto',
+    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(79, 195, 247, 0.3)',
+    border: '2px solid rgba(79, 195, 247, 0.3)',
+    position: 'relative',
+    animation: 'popupFadeIn 0.3s ease-out',
+  },
+  popupHeader: {
+    padding: '2rem',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+    position: 'relative',
+  },
+  popupTitle: {
+    color: 'white',
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    marginBottom: '0.5rem',
+    textShadow: '0 0 20px rgba(79, 195, 247, 0.5)',
+  },
+  popupSubtitle: {
+    color: '#4fc3f7',
+    fontSize: '1rem',
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+  },
+  popupBody: {
+    padding: '2rem',
+  },
+  popupDescription: {
+    color: '#d1d5db',
+    fontSize: '1rem',
+    lineHeight: '1.6',
+    marginBottom: '2rem',
+  },
+  popupDetailsList: {
+    listStyle: 'none',
+    padding: 0,
+    margin: 0,
+  },
+  popupDetailItem: {
+    color: 'white',
+    fontSize: '1rem',
+    padding: '0.75rem 1rem',
+    marginBottom: '0.75rem',
+    background: 'rgba(79, 195, 247, 0.1)',
+    borderRadius: '10px',
+    borderLeft: '4px solid #4fc3f7',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+  },
+  popupFooter: {
+    padding: '1.5rem 2rem',
+    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+    display: 'flex',
+    gap: '1rem',
+    justifyContent: 'flex-end',
+  },
+  popupButton: {
+    padding: '0.75rem 2rem',
+    borderRadius: '50px',
+    fontSize: '0.875rem',
+    fontWeight: '600',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'all 0.3s',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+  },
+  popupButtonPrimary: {
+    background: 'linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%)',
+    color: 'white',
+    boxShadow: '0 4px 15px rgba(79, 195, 247, 0.4)',
+  },
+  popupButtonSecondary: {
+    background: 'rgba(255, 255, 255, 0.1)',
+    color: 'white',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
+  },
+  popupCloseButton: {
+    position: 'absolute',
+    top: '1.5rem',
+    right: '1.5rem',
+    background: 'rgba(255, 255, 255, 0.1)',
+    border: '2px solid rgba(255, 255, 255, 0.3)',
+    color: 'white',
+    width: '2.5rem',
+    height: '2.5rem',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    fontSize: '1.5rem',
+    transition: 'all 0.3s',
+    zIndex: 10,
+  },
 };
 
-// Add keyframes
+// Add keyframes and media queries
 const styleSheet = document.styleSheets[0];
 const keyframesSlideIn = `
   @keyframes fadeIn {
@@ -255,6 +370,52 @@ const keyframesSlideIn = `
       opacity: 1; 
       transform: translateY(0);
     }
+  }
+  @keyframes popupFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  @keyframes bokehFloat {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(${Math.random() * 0.5 + 0.8});
+    }
+  }
+  @media (min-width: 768px) {
+    .logo { font-size: 3rem !important; }
+    .header { padding: 2.5rem 3rem !important; }
+    .nav-prev { left: 3rem !important; font-size: 1rem !important; padding: 1rem 1.5rem !important; }
+    .nav-next { right: 3rem !important; font-size: 1rem !important; padding: 1rem 1.5rem !important; }
+    .title { font-size: 4.5rem !important; margin-bottom: 1.5rem !important; }
+    .subtitle { font-size: 0.875rem !important; margin-bottom: 1rem !important; }
+    .description { font-size: 0.875rem !important; max-width: 42rem !important; }
+    .indicators { bottom: 3rem !important; }
+    .close-btn { top: 2rem !important; right: 2rem !important; width: 3rem !important; height: 3rem !important; font-size: 1.5rem !important; }
+  }
+  @media (max-width: 767px) {
+    .logo { font-size: 1.25rem !important; padding: 0 0.5rem !important; }
+    .popup-title { font-size: 1.5rem !important; }
+    .popup-body { padding: 1.5rem !important; }
+    .popup-header { padding: 1.5rem !important; }
+    .popup-footer { padding: 1rem 1.5rem !important; flex-direction: column; }
+    .popup-button { width: 100%; }
+    .popup-card { max-width: 95% !important; margin: 0 auto; }
+    .nav-prev { left: 0.5rem !important; font-size: 0.65rem !important; padding: 0.6rem 0.8rem !important; }
+    .nav-next { right: 0.5rem !important; font-size: 0.65rem !important; padding: 0.6rem 0.8rem !important; }
+  }
+  @media (max-width: 480px) {
+    .logo { font-size: 1rem !important; }
+    .title { font-size: 1.5rem !important; }
+    .subtitle { font-size: 0.65rem !important; }
+    .description { font-size: 0.7rem !important; }
   }
 `;
 if (styleSheet) {
@@ -280,8 +441,58 @@ function App() {
   const mouseRef = useRef({ x: 0, y: 0 });
   const [flippedCards, setFlippedCards] = useState({});
   const [focusedCard, setFocusedCard] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupData, setPopupData] = useState(null);
+  const bokehParticlesRef = useRef([]);
 
   const activeItem = carouselData[activeIndex];
+
+  // Bokeh background effect
+  useEffect(() => {
+    const bokehContainer = document.getElementById('bokeh-container');
+    if (!bokehContainer) return;
+
+    // Clear existing particles
+    bokehContainer.innerHTML = '';
+    const particles = [];
+
+    // Create 30 bokeh particles
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      const size = Math.random() * 120 + 40;
+      const x = Math.random() * 100;
+      const y = Math.random() * 100;
+      const duration = Math.random() * 20 + 15;
+      const delay = Math.random() * 5;
+      const opacity = Math.random() * 0.4 + 0.1;
+      
+      const colors = ['#4fc3f7', '#ab47bc', '#26a69a', '#ffd700', '#ff6b9d', '#c084fc'];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      particle.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        left: ${x}%;
+        top: ${y}%;
+        background: radial-gradient(circle, ${color} 0%, transparent 70%);
+        border-radius: 50%;
+        opacity: ${opacity};
+        filter: blur(${Math.random() * 30 + 10}px);
+        animation: bokehFloat ${duration}s ease-in-out ${delay}s infinite alternate;
+        pointer-events: none;
+      `;
+
+      bokehContainer.appendChild(particle);
+      particles.push(particle);
+    }
+
+    bokehParticlesRef.current = particles;
+
+    return () => {
+      bokehContainer.innerHTML = '';
+    };
+  }, []);
 
   useEffect(() => {
     const currentMount = mountRef.current;
@@ -290,6 +501,7 @@ function App() {
     // Scene setup
     const scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 5, 20);
+    scene.background = null; // Make scene background transparent
     sceneRef.current = scene;
 
     // Camera
@@ -309,18 +521,23 @@ function App() {
       powerPreference: "high-performance"
     });
     renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-    renderer.setClearColor(0x000000, 1);
+    renderer.setClearColor(0x000000, 0); // Transparent background
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     currentMount.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
     // Lights
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
+    // Main front light to illuminate cards facing camera
+    const frontLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    frontLight.position.set(0, 5, 10);
+    scene.add(frontLight);
+
     // Dynamic spotlight that follows active object
-    const spotLight = new THREE.SpotLight(0xffffff, 2);
+    const spotLight = new THREE.SpotLight(0xffffff, 1);
     spotLight.position.set(0, 10, 0);
     spotLight.angle = 0.5;
     spotLight.penumbra = 0.8;
@@ -332,14 +549,19 @@ function App() {
     scene.add(spotLight);
     spotLightRef.current = spotLight;
 
-    // Rim lights for cinematic effect
-    const rimLight1 = new THREE.DirectionalLight(0x4fc3f7, 0.5);
+    // Rim lights for cinematic effect - reduced intensity
+    const rimLight1 = new THREE.DirectionalLight(0x4fc3f7, 0.3);
     rimLight1.position.set(-5, 2, -5);
     scene.add(rimLight1);
 
-    const rimLight2 = new THREE.DirectionalLight(0xab47bc, 0.5);
+    const rimLight2 = new THREE.DirectionalLight(0xab47bc, 0.3);
     rimLight2.position.set(5, 2, -5);
     scene.add(rimLight2);
+
+    // Back light to illuminate cards from behind
+    const backLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    backLight.position.set(0, 0, -10);
+    scene.add(backLight);
 
     // Create environment - floor grid
     const gridHelper = new THREE.GridHelper(50, 50, 0x333333, 0x111111);
@@ -396,10 +618,10 @@ function App() {
       
       const frontMaterial = new THREE.MeshStandardMaterial({
         color: 0xffffff,
-        metalness: 0.3,
-        roughness: 0.4,
-        emissive: new THREE.Color(item.color),
-        emissiveIntensity: 0.1,
+        metalness: 0.0,
+        roughness: 1.0,
+        emissive: new THREE.Color(0x000000),
+        emissiveIntensity: 0,
         side: THREE.FrontSide,
       });
       
@@ -411,6 +633,7 @@ function App() {
       textureLoader.load(
         item.imageUrl,
         (texture) => {
+          texture.colorSpace = THREE.SRGBColorSpace;
           frontMaterial.map = texture;
           frontMaterial.needsUpdate = true;
         },
@@ -422,76 +645,36 @@ function App() {
 
       cardGroup.add(frontMesh);
 
-      // BACK SIDE - Text Details
-      const canvas = document.createElement('canvas');
-      canvas.width = 512;
-      canvas.height = 640;
-      const ctx = canvas.getContext('2d');
-      
-      // Draw background with gradient
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, item.color);
-      gradient.addColorStop(1, '#1a1a1a');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      // Draw border
-      ctx.strokeStyle = 'white';
-      ctx.lineWidth = 6;
-      ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
-      
-      // Draw title - LARGER AND BOLD WHITE TEXT
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 56px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText(item.title, canvas.width / 2, 100);
-      
-      // Draw subtitle - WHITE TEXT
-      ctx.font = 'bold 36px Arial';
-      ctx.fillStyle = 'white';
-      ctx.fillText(item.subtitle, canvas.width / 2, 160);
-      
-      // Draw separator line
-      ctx.strokeStyle = 'white';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(80, 200);
-      ctx.lineTo(canvas.width - 80, 200);
-      ctx.stroke();
-      
-      // Draw details - LARGER WHITE TEXT
-      ctx.font = 'bold 32px Arial';
-      ctx.fillStyle = 'white';
-      ctx.textAlign = 'left';
-      const startY = 260;
-      const lineHeight = 58;
-      
-      ctx.fillText('• ' + item.details.line1, 60, startY);
-      ctx.fillText('• ' + item.details.line2, 60, startY + lineHeight);
-      ctx.fillText('• ' + item.details.line3, 60, startY + lineHeight * 2);
-      ctx.fillText('• ' + item.details.line4, 60, startY + lineHeight * 3);
-      if (item.details.line5) {
-        ctx.fillText('• ' + item.details.line5, 60, startY + lineHeight * 4);
-      }
-      
-      // Draw "Click to flip" hint - WHITE TEXT
-      ctx.font = 'italic 28px Arial';
-      ctx.fillStyle = 'white';
-      ctx.textAlign = 'center';
-      ctx.fillText('Click card to flip back', canvas.width / 2, canvas.height - 50);
-      
-      const backTexture = new THREE.CanvasTexture(canvas);
+      // BACK SIDE - Just the image, no text overlay
       const backGeometry = new THREE.PlaneGeometry(2 * scale, 2.5 * scale);
-      const backMaterial = new THREE.MeshStandardMaterial({ 
-        map: backTexture, 
+      
+      const backMaterial = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        metalness: 0.0,
+        roughness: 1.0,
+        emissive: new THREE.Color(0x000000),
+        emissiveIntensity: 0,
         side: THREE.BackSide,
-        emissive: new THREE.Color(item.color),
-        emissiveIntensity: 0.1,
       });
+      
       const backMesh = new THREE.Mesh(backGeometry, backMaterial);
       backMesh.castShadow = true;
       backMesh.receiveShadow = true;
       
+      // Load the same image texture for back side
+      textureLoader.load(
+        item.imageUrl,
+        (texture) => {
+          texture.colorSpace = THREE.SRGBColorSpace;
+          backMaterial.map = texture;
+          backMaterial.needsUpdate = true;
+        },
+        undefined,
+        (error) => {
+          console.log('Error loading back texture:', error);
+        }
+      );
+
       cardGroup.add(backMesh);
       
       const angle = (index / carouselData.length) * Math.PI * 2;
@@ -509,8 +692,12 @@ function App() {
     const mouse = new THREE.Vector2();
     
     const handleClick = (event) => {
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      // Handle both mouse and touch events
+      const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+      const clientY = event.clientY || (event.touches && event.touches[0].clientY);
+      
+      mouse.x = (clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(clientY / window.innerHeight) * 2 + 1;
       
       raycaster.setFromCamera(mouse, camera);
       
@@ -526,30 +713,25 @@ function App() {
         const parentCard = clickedMesh.parent;
         const cardIndex = parentCard.userData.index;
         
-        const wasFlipped = flippedCards[cardIndex];
-        
-        setFlippedCards(prev => ({
-          ...prev,
-          [cardIndex]: !prev[cardIndex]
-        }));
-        
-        // Set focused card when flipping to details
-        if (!wasFlipped) {
-          setFocusedCard(cardIndex);
-        } else {
-          setFocusedCard(null);
-        }
+        // Open popup instead of flipping
+        setPopupData(carouselData[cardIndex]);
+        setShowPopup(true);
       }
     };
     
     window.addEventListener('click', handleClick);
+    window.addEventListener('touchend', handleClick);
     
-    // Mouse move for parallax
+    // Mouse/Touch move for parallax
     const handleMouseMove = (event) => {
-      mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouseRef.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+      const clientY = event.clientY || (event.touches && event.touches[0].clientY);
+      
+      mouseRef.current.x = (clientX / window.innerWidth) * 2 - 1;
+      mouseRef.current.y = -(clientY / window.innerHeight) * 2 + 1;
     };
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('touchmove', handleMouseMove, { passive: true });
 
     // Animation loop
     let animationId;
@@ -636,9 +818,8 @@ function App() {
         
         // Update emissive intensity for active object
         if (cardGroup.children && cardGroup.children[0] && cardGroup.children[0].material && cardGroup.children[0].material.emissiveIntensity !== undefined) {
-          const targetEmissive = (index === activeIndex || isFocused) ? 0.4 : 0.1;
-          const currentEmissive = cardGroup.children[0].material.emissiveIntensity;
-          cardGroup.children[0].material.emissiveIntensity = currentEmissive + (targetEmissive - currentEmissive) * 0.05;
+          // Keep emissive at 0 to avoid color tinting
+          cardGroup.children[0].material.emissiveIntensity = 0;
         }
       });
 
@@ -647,12 +828,6 @@ function App() {
       currentRotationRef.current += diff * 0.05;
       group.rotation.y = currentRotationRef.current;
 
-      // Orbital camera rotation - DISABLED
-      // cameraAngleRef.current += 0.001;
-      // const cameraRadius = 10;
-      // camera.position.x = Math.sin(cameraAngleRef.current) * cameraRadius * 0.3;
-      // camera.position.z = Math.cos(cameraAngleRef.current) * cameraRadius;
-      
       // Static camera position with parallax only
       camera.position.x = 0 + mouseRef.current.x * 0.5;
       camera.position.y = 3 + mouseRef.current.y * 0.5;
@@ -710,7 +885,9 @@ function App() {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleMouseMove);
       window.removeEventListener('click', handleClick);
+      window.removeEventListener('touchend', handleClick);
       cancelAnimationFrame(animationId);
       if (currentMount && renderer.domElement) {
         currentMount.removeChild(renderer.domElement);
@@ -749,17 +926,36 @@ function App() {
     setActiveIndex((prev) => (prev + 1) % carouselData.length);
   };
 
-  const handleExplore = () => {
-    // Flip the active card to show details
+  const handleCloseCard = () => {
     setFlippedCards(prev => ({
       ...prev,
-      [activeIndex]: true
+      [focusedCard]: false
     }));
-    setFocusedCard(activeIndex);
+    setFocusedCard(null);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setPopupData(null);
+  };
+
+  const handleBookNow = () => {
+    // You can redirect to booking page or handle booking
+    alert(`Booking ${popupData?.title}! You can redirect to a booking page here.`);
+    // For redirect: window.location.href = '/booking?package=' + popupData?.id;
+  };
+
+  const handleLearnMore = () => {
+    // You can redirect to details page
+    alert(`Learn more about ${popupData?.title}! You can redirect to a details page here.`);
+    // For redirect: window.location.href = '/package-details/' + popupData?.id;
   };
 
   return (
     <div style={styles.container}>
+      {/* Bokeh Background */}
+      <div id="bokeh-container" style={styles.backgroundBokeh}></div>
+      
       {/* Film grain overlay */}
       <div style={styles.filmGrain} />
       
@@ -767,81 +963,45 @@ function App() {
       <div style={styles.vignette} />
 
       {/* Header */}
-      <header style={styles.header}>
-        <div style={styles.logo}>GEOMETRY</div>
-        <nav style={styles.nav}>
-          <button 
-            style={styles.navButton}
-            onMouseOver={(e) => e.target.style.color = '#4fc3f7'}
-            onMouseOut={(e) => e.target.style.color = 'white'}
-          >
-            Planets
-          </button>
-          <button 
-            style={styles.navButton}
-            onMouseOver={(e) => e.target.style.color = '#4fc3f7'}
-            onMouseOut={(e) => e.target.style.color = 'white'}
-          >
-            Space
-          </button>
-          <button 
-            style={styles.navButton}
-            onMouseOver={(e) => e.target.style.color = '#4fc3f7'}
-            onMouseOut={(e) => e.target.style.color = 'white'}
-          >
-            Explore
-          </button>
-          <button 
-            style={styles.navButton}
-            onMouseOver={(e) => e.target.style.color = '#4fc3f7'}
-            onMouseOut={(e) => e.target.style.color = 'white'}
-          >
-            About
-          </button>
-        </nav>
-        <button 
-          style={styles.subscribeButton}
-          onMouseOver={(e) => {
-            e.target.style.background = '#4fc3f7';
-            e.target.style.transform = 'scale(1.05)';
-          }}
-          onMouseOut={(e) => {
-            e.target.style.background = 'white';
-            e.target.style.transform = 'scale(1)';
-          }}
-        >
-          Subscribe
-        </button>
+      <header style={styles.header} className="header">
+        <div style={styles.logo} className="logo">CLICKMORE FILMS</div>
       </header>
 
       {/* 3D Canvas */}
       <div ref={mountRef} style={styles.canvas} />
 
-      {/* Content Overlay - Hide when card is focused, show FLIP CARD button only when active card is not flipped */}
+      {/* Content Overlay - Hide when card is focused */}
       {focusedCard === null && !flippedCards[activeIndex] && (
         <div style={styles.overlay}>
           <div style={styles.content}>
-            <div style={styles.subtitle}>{activeItem.subtitle.toUpperCase()}</div>
-            <h1 style={styles.title}>{activeItem.title}</h1>
-            <p style={styles.description}>
+            <div style={styles.subtitle} className="subtitle">{activeItem.subtitle.toUpperCase()}</div>
+            <h1 style={styles.title} className="title">{activeItem.title}</h1>
+            <p style={styles.description} className="description">
               {activeItem.description}
             </p>
-            <button 
-              onClick={handleExplore}
-              style={styles.exploreButton}
-              onMouseOver={(e) => {
-                e.target.style.background = '#4fc3f7';
-                e.target.style.transform = 'scale(1.05)';
-              }}
-              onMouseOut={(e) => {
-                e.target.style.background = 'white';
-                e.target.style.transform = 'scale(1)';
-              }}
-            >
-              FLIP CARD
-            </button>
           </div>
         </div>
+      )}
+
+      {/* Close Button - Show when card is focused */}
+      {focusedCard !== null && (
+        <button
+          onClick={handleCloseCard}
+          style={styles.closeButton}
+          className="close-btn"
+          onMouseOver={(e) => {
+            e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+            e.target.style.borderColor = '#4fc3f7';
+            e.target.style.transform = 'scale(1.1) rotate(90deg)';
+          }}
+          onMouseOut={(e) => {
+            e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+            e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            e.target.style.transform = 'scale(1) rotate(0deg)';
+          }}
+        >
+          ×
+        </button>
       )}
 
       {/* Navigation Buttons - Hide when card is focused */}
@@ -850,6 +1010,7 @@ function App() {
           <button
             onClick={handlePrevious}
             style={styles.navPrev}
+            className="nav-prev"
             onMouseOver={(e) => {
               e.target.style.color = '#4fc3f7';
               e.target.style.background = 'rgba(79, 195, 247, 0.2)';
@@ -863,11 +1024,12 @@ function App() {
               e.target.style.transform = 'translateY(-50%) translateX(0)';
             }}
           >
-            ← PREVIOUS
+            ← PREV
           </button>
           <button
             onClick={handleNext}
             style={styles.navNext}
+            className="nav-next"
             onMouseOver={(e) => {
               e.target.style.color = '#4fc3f7';
               e.target.style.background = 'rgba(79, 195, 247, 0.2)';
@@ -888,7 +1050,7 @@ function App() {
 
       {/* Bottom indicator - Hide when card is focused */}
       {focusedCard === null && (
-        <div style={styles.indicators}>
+        <div style={styles.indicators} className="indicators">
           {carouselData.map((_, index) => (
             <button
               key={index}
@@ -899,6 +1061,96 @@ function App() {
               }}
             />
           ))}
+        </div>
+      )}
+
+      {/* Popup Modal */}
+      {showPopup && popupData && (
+        <div style={styles.popupOverlay} onClick={handleClosePopup}>
+          <div style={styles.popupCard} onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={handleClosePopup}
+              style={styles.popupCloseButton}
+              onMouseOver={(e) => {
+                e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                e.target.style.transform = 'rotate(90deg) scale(1.1)';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                e.target.style.transform = 'rotate(0deg) scale(1)';
+              }}
+            >
+              ×
+            </button>
+            
+            <div style={styles.popupHeader} className="popup-header">
+              <h2 style={styles.popupTitle} className="popup-title">{popupData.title}</h2>
+              <p style={styles.popupSubtitle}>{popupData.subtitle}</p>
+            </div>
+            
+            <div style={styles.popupBody} className="popup-body">
+              <p style={styles.popupDescription}>{popupData.description}</p>
+              
+              <h3 style={{ color: '#4fc3f7', marginBottom: '1rem', fontSize: '1.25rem' }}>Package Includes:</h3>
+              <ul style={styles.popupDetailsList}>
+                <li style={styles.popupDetailItem}>
+                  <span style={{ fontSize: '1.5rem' }}>📷</span>
+                  <span>{popupData.details.line1}</span>
+                </li>
+                <li style={styles.popupDetailItem}>
+                  <span style={{ fontSize: '1.5rem' }}>🎥</span>
+                  <span>{popupData.details.line2}</span>
+                </li>
+                <li style={styles.popupDetailItem}>
+                  <span style={{ fontSize: '1.5rem' }}>📸</span>
+                  <span>{popupData.details.line3}</span>
+                </li>
+                <li style={styles.popupDetailItem}>
+                  <span style={{ fontSize: '1.5rem' }}>🎬</span>
+                  <span>{popupData.details.line4}</span>
+                </li>
+                {popupData.details.line5 && (
+                  <li style={styles.popupDetailItem}>
+                    <span style={{ fontSize: '1.5rem' }}>🚁</span>
+                    <span>{popupData.details.line5}</span>
+                  </li>
+                )}
+              </ul>
+            </div>
+            
+            <div style={styles.popupFooter} className="popup-footer">
+              <button
+                onClick={handleLearnMore}
+                style={{...styles.popupButton, ...styles.popupButtonSecondary}}
+                className="popup-button"
+                onMouseOver={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                  e.target.style.borderColor = '#4fc3f7';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                }}
+              >
+                Learn More
+              </button>
+              <button
+                onClick={handleBookNow}
+                style={{...styles.popupButton, ...styles.popupButtonPrimary}}
+                className="popup-button"
+                onMouseOver={(e) => {
+                  e.target.style.transform = 'scale(1.05)';
+                  e.target.style.boxShadow = '0 6px 20px rgba(79, 195, 247, 0.6)';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.transform = 'scale(1)';
+                  e.target.style.boxShadow = '0 4px 15px rgba(79, 195, 247, 0.4)';
+                }}
+              >
+                Book Now
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

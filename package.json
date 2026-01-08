@@ -2,7 +2,7 @@
   "name": "clickmore",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://kamlesh8584.github.io/3dd",
+  "homepage": "https://kamlesh8584.github.io/3d",
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
@@ -21,5 +21,17 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

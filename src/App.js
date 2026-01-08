@@ -634,6 +634,7 @@ function App() {
         item.imageUrl,
         (texture) => {
           texture.colorSpace = THREE.SRGBColorSpace;
+          texture.needsUpdate = true;
           frontMaterial.map = texture;
           frontMaterial.needsUpdate = true;
         },
@@ -666,6 +667,7 @@ function App() {
         item.imageUrl,
         (texture) => {
           texture.colorSpace = THREE.SRGBColorSpace;
+          texture.needsUpdate = true;
           backMaterial.map = texture;
           backMaterial.needsUpdate = true;
         },
